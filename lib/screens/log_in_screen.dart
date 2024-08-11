@@ -76,11 +76,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const HomeScreen(),
+                              builder: (context) =>
+                                  HomeScreen(userData: state.userData),
                             ),
                           );
                         } else if (state is AuthFailure) {
-                          _showErrorDialog(context, state.error);
+                          _showErrorDialog(
+                              context, "Tài khoản hoặc mật khẩu không đúng!");
                         }
                       },
                       builder: (context, state) {
@@ -131,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Error'),
+        title: const Text('Lỗi'),
         content: Text(message),
         actions: [
           TextButton(

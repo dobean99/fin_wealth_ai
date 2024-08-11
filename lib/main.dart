@@ -16,6 +16,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     final Dio dio = Dio();
@@ -36,9 +37,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        initialRoute: '/login', // Adjusted to show LoginScreen first
         routes: {
-          '/home': (context) => const HomeScreen(),
+          '/login': (context) => LoginScreen(),
         },
       ),
     );
