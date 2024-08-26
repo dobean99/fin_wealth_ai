@@ -3,7 +3,7 @@ import 'package:fin_wealth/blocs/strategy/strategy_bloc.dart';
 import 'package:fin_wealth/blocs/strategy/strategy_event.dart';
 import 'package:fin_wealth/blocs/strategy/strategy_state.dart';
 import 'package:fin_wealth/respositories/strategy_repository.dart';
-import 'package:fin_wealth/utils/currency_formatter.dart';
+import 'package:fin_wealth/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +25,7 @@ class MainScreen extends StatelessWidget {
               length: state.stockStrategies.length, // Number of tabs is dynamic
               child: Scaffold(
                 appBar: AppBar(
-                  title: const Text('Chiến Lược Đầu Tư'),
+                  title: const Text('Danh sách theo dõi'),
                   bottom: TabBar(
                     tabAlignment: TabAlignment.start,
                     isScrollable:
@@ -63,7 +63,8 @@ class MainScreen extends StatelessWidget {
                           ),
                           child: ListTile(
                             leading: Text(
-                              stock.ticker,
+                              DateFormatter.formatDateFromString(
+                                  stock.date ?? ""),
                               style: const TextStyle(
                                 fontSize:
                                     14, // Adjust font size for the trailing text
@@ -72,11 +73,7 @@ class MainScreen extends StatelessWidget {
                               ),
                             ),
                             trailing: Text(
-                              stock.takeProfitPrice != null
-                                  ? 'Chốt lời: ${CurrencyFormatter.formatThousanDong(stock.takeProfitPrice ?? 0)}'
-                                  : stock.predictedPrice != null
-                                      ? 'Dự đoán: ${CurrencyFormatter.formatThousanDong(stock.predictedPrice ?? 0)}'
-                                      : '',
+                              stock.ticker,
                               style: const TextStyle(
                                 fontSize:
                                     14, // Adjust font size for the trailing text

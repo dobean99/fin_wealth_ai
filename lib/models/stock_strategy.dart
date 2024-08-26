@@ -22,39 +22,39 @@ class StockStrategy extends Equatable {
 
 class Stock extends Equatable {
   final String ticker;
-  final double? takeProfitPrice;
-  final double? predictedPrice;
-  final double? r2;
-  final double? mse;
-  final double? priceChange;
+  final String? date;
+  final double? accumulation;
+  final double? wavefoot;
+  final double? close;
+  final double? marketPrice;
 
   Stock({
     required this.ticker,
-    this.takeProfitPrice,
-    this.predictedPrice,
-    this.r2,
-    this.mse,
-    this.priceChange,
+    this.date,
+    this.accumulation,
+    this.wavefoot,
+    this.close,
+    this.marketPrice,
   });
 
   factory Stock.fromJson(Map<String, dynamic> json) {
     return Stock(
       ticker: json['ticker'] ?? json['symbol'],
-      takeProfitPrice: json['take_profit_price']?.toDouble(),
-      predictedPrice: json['predicted_price']?.toDouble(),
-      r2: json['r2']?.toDouble(),
-      mse: json['mse']?.toDouble(),
-      priceChange: json['price_change']?.toDouble(),
+      date: json['date'],
+      accumulation: json['predicted_price']?.toDouble(),
+      wavefoot: json['wavefoot']?.toDouble(),
+      close: json['close']?.toDouble(),
+      marketPrice: json['market_price']?.toDouble(),
     );
   }
 
   @override
   List<Object?> get props => [
         ticker,
-        takeProfitPrice,
-        predictedPrice,
-        r2,
-        mse,
-        priceChange,
+        date,
+        accumulation,
+        wavefoot,
+        close,
+        marketPrice,
       ];
 }

@@ -28,22 +28,28 @@ class MarketScreen extends StatelessWidget {
               if (state.reports.isEmpty) {
                 return const Center(child: Text('No reports available.'));
               }
-              return ListView.builder(
-                itemCount: state.reports.length,
-                itemBuilder: (context, index) {
-                  final report = state.reports[index];
-                  return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: ListTile(
-                      title: Text(
-                        'Ngày: ${DateFormatter.formatDateFromString(report.date)}',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(report.content),
-                      contentPadding: const EdgeInsets.all(16.0),
-                    ),
-                  );
+              return RefreshIndicator(
+                onRefresh: () async {
+                  // Trigger fetching of market reports again when pulled to refresh
+                  context.read<MarketBloc>().add(FetchMarketReports());
                 },
+                child: ListView.builder(
+                  itemCount: state.reports.length,
+                  itemBuilder: (context, index) {
+                    final report = state.reports[index];
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: ListTile(
+                        title: Text(
+                          'Ngày: ${DateFormatter.formatDateFromString(report.date)}',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(report.content),
+                        contentPadding: const EdgeInsets.all(16.0),
+                      ),
+                    );
+                  },
+                ),
               );
             } else if (state is MarketFailure) {
               return Center(child: Text('Error: ${state.error}'));
