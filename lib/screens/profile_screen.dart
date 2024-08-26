@@ -1,55 +1,57 @@
+import 'package:fin_wealth/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
+  final Map<String, dynamic> userData;
+
   final String avatarUrl =
       'https://example.com/avatar.png'; // Replace with actual avatar URL
-  final String username = 'Do Do';
-  final String status = 'Active';
+
   void _logout(BuildContext context) {
     // Implement your logout logic here, e.g., clearing user session, navigating to the login screen, etc.
     Navigator.of(context)
         .pushReplacementNamed('/login'); // Example: Navigate to login screen
   }
 
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.userData});
 
   @override
   Widget build(BuildContext context) {
+    // Convert the point to an integer for expiry calculation
+    final int points = userData['point']?.toInt() ?? 0;
+
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Profile'),
-      // ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.black12,
-                child: Icon(
-                  Icons.person,
-                  color: Colors.grey,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 30,
+                    backgroundImage: NetworkImage(avatarUrl),
+                    backgroundColor: Colors.black12,
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    userData['username'] ?? 'Unknown User',
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Ngày hết hạn: ${DateFormatter.formatExpiryDate(points)}",
+                    style: const TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 20),
-              Text(
-                username,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                status,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.blue,
-                ),
-              ),
-              SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () => _logout(context),
                 style: ElevatedButton.styleFrom(
@@ -62,8 +64,8 @@ class ProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(
-                  'Logout',
+                child: const Text(
+                  'Đăng xuất',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,

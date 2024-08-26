@@ -5,7 +5,9 @@ import 'search_screen.dart';
 import 'profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final Map<String, dynamic> userData;
+
+  const HomeScreen({super.key, required this.userData});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -14,12 +16,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    const MainScreen(),
-    SearchScreen(),
-    MarketScreen(),
-    const ProfileScreen(),
-  ];
+  // This method is used to generate the list of screens
+  List<Widget> _getScreens() {
+    return [
+      const MainScreen(), // Note: Pass necessary parameters if required
+      SearchScreen(),
+      const MarketScreen(),
+      ProfileScreen(userData: widget.userData),
+    ];
+  }
 
   void _onTabTapped(int index) {
     setState(() {
@@ -30,37 +35,38 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _getScreens(),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home', // Empty label
-            tooltip: 'Home', // Optional tooltip
+            label: 'Home',
+            tooltip: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Stocks', // Empty label
-            tooltip: 'Stocks', // Optional tooltip
+            label: 'Stocks',
+            tooltip: 'Stocks',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_basket_rounded),
-            label: 'Market', // Empty label
-            tooltip: 'Market', // Optional tooltip
+            label: 'Market',
+            tooltip: 'Market',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'Profile', // Empty label
-            tooltip: 'Profile', // Optional tooltip
+            label: 'Profile',
+            tooltip: 'Profile',
           ),
         ],
-        selectedItemColor: Colors.blue, // Color for the active tab
-        unselectedItemColor: Colors.grey, // Color for inactive tabs
-
-        type: BottomNavigationBarType
-            .fixed, // Use fixed type to keep the layout consistent
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        type: BottomNavigationBarType.fixed,
       ),
     );
   }

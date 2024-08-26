@@ -17,13 +17,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         event.username,
         event.password,
       );
-      if (success) {
-        emit(AuthSuccess());
-      } else {
-        emit(AuthFailure('Authentication failed'));
-      }
+      emit(AuthSuccess(userData: success));
     } catch (error) {
-      emit(AuthFailure(error.toString()));
+      emit(AuthFailure(error: error.toString()));
     }
   }
 }

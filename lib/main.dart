@@ -8,7 +8,6 @@ import 'package:fin_wealth/screens/log_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/auth/auth_bloc.dart';
-import 'screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +15,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     final Dio dio = Dio();
@@ -36,9 +36,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        initialRoute: '/login', // Adjusted to show LoginScreen first
         routes: {
-          '/home': (context) => const HomeScreen(),
+          '/login': (context) => LoginScreen(),
         },
       ),
     );
